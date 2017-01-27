@@ -19,7 +19,6 @@ addons:
       - g++-4.8
       - cmake
       - gfortran
-      - bzip
 install:
   - pip install -U pip setuptools wheel
   - source make_pip_package.sh
