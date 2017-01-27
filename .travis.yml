@@ -1,26 +1,28 @@
-sudo: false
+sudo: required
+dist: trusty
 language: python
 os:
-- linux
-- osx
+  - linux
+  - osx
 python:
-- '2.7'
+  - '2.7'
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-    - wget
-    - git
-    - libcurl4-openssl-dev
-    - unzip
-    - gcc-4.8
-    - g++-4.8
-    - cmake
-    - gfortran
+      - wget
+      - git
+      - libcurl4-openssl-dev
+      - unzip
+      - gcc-4.8
+      - g++-4.8
+      - cmake
+      - gfortran
+      - bzip
 install:
-- pip install -U pip setuptools wheel
-- source make_pip_package.sh
+  - pip install -U pip setuptools wheel
+  - source make_pip_package.sh
 deploy:
   provider: pypi
   user: phunter
