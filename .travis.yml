@@ -17,6 +17,7 @@ addons:
     - gcc-4.8
     - g++-4.8
     - cmake
+    - gfortran
 install:
 - pip install -U pip setuptools wheel
 - source make_pip_package.sh
