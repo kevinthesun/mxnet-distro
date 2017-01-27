@@ -20,6 +20,7 @@ addons:
       - gfortran
 install:
   - pip install -U pip setuptools wheel
+script:
   - source make_pip_package.sh
 deploy:
   provider: pypi
