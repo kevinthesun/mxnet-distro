@@ -1,0 +1,6 @@
+build
+deps
+dist
+mxnet-build
+mxnet.egg-info
+mxnet
