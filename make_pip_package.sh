@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-git clone https://github.com/dmlc/mxnet.git mxnet-build --recursive
 
 # Set up path as temporary working directory
 DEPS_PATH=$PWD/deps
@@ -131,6 +130,8 @@ cd -
 # they still get created. So, remove them just to make sure they don't
 # interfere, or otherwise we might get libmxnet.so that is not self-contained.
 rm $DEPS_PATH/{lib,lib64}/*.{so,so.0}
+
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
 
 # Go to the parent path and build mxnet
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_cpu.mk mxnet-build/config.mk
