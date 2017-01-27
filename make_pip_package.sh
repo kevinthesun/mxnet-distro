@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+git clone https://github.com/dmlc/mxnet.git mxnet-build --recursive
 
 # Set up path as temporary working directory
 DEPS_PATH=$PWD/deps
