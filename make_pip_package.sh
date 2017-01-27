@@ -81,6 +81,7 @@ unzip $DEPS_PATH/opencv.zip -d $DEPS_PATH
 mkdir $DEPS_PATH/opencv-$OPENCV_VERSION/build
 cd $DEPS_PATH/opencv-$OPENCV_VERSION/build
 cmake -D WITH_1394=OFF \
+      -D WITH_OPENEXR=OFF \
       -D WITH_AVFOUNDATION=OFF \
       -D WITH_QTKit=OFF \
       -D WITH_CUDA=OFF \
