@@ -138,6 +138,6 @@ cp pip_$(uname | tr '[:upper:]' '[:lower:]')_cpu.mk mxnet-build/config.mk
 cd mxnet-build
 make -j $(nproc) || exit -1
 
-# # Generate wheel. The output is in the mxnet/tools/pip_package/dist path.
-# cd ../
+# Generate wheel. The output is in the mxnet/tools/pip_package/dist path.
+cd ../
 # python setup.py bdist_wheel
