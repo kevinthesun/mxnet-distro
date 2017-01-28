@@ -2,7 +2,12 @@
 """Setup mxnet package."""
 from __future__ import absolute_import
 import os
+import sys
 import shutil
+import platform
+
+if platform.system() == 'Linux':
+    sys.argv.append('--plat-name=manylinux1_x86_64')
 
 from setuptools import setup, find_packages
 from setuptools.dist import Distribution
