@@ -25,7 +25,7 @@ matrix:
 
 brefore_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-      rvm get stable --auto-dotfiles
+      rvm get head --auto-dotfiles
       brew update;
       brew install python;
   fi
