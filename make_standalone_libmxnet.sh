@@ -180,6 +180,16 @@ cd mxnet-build
 make -j $NUM_PROC || exit -1;
 cd ../
 
+# Print the linked objects on libmxnet.so
+echo "Checking linked objects on libmxnet.so..."
+if [[ ! -z $(command -v readelf) ]]; then
+    readelf -d mxnet-build/lib/libmxnet.so
+elif [[ ! -z $(command -v otool) ]]; then
+    otool -L mxnet-build/lib/libmxnet.so
+else
+    echo "Not available"
+fi
+
 # Make wheel for testing
 python setup.py bdist_wheel
 
