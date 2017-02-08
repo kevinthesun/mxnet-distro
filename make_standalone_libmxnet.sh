@@ -177,11 +177,12 @@ git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_cpu.mk mxnet-build/config.mk
 cd mxnet-build
-make -j $NUM_PROC || exit -1
-
-
-# Now it's ready to Generate wheel.
-# Travis will run:
-# $ python setup.py bdist_wheel
-# The output will be in the mxnet/tools/pip_package/dist path.
+make -j $NUM_PROC || exit -1;
 cd ../
+
+# Make wheel for testing
+python setup.py bdist_wheel
+
+# Now it's ready to test.
+# After testing, Travis will build the wheel again
+# The output will be in the 'dist' path.
