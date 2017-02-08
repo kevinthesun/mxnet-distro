@@ -30,19 +30,6 @@ brefore_install: |
       brew install python;
   fi
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - wget
-      - git
-      - libcurl4-openssl-dev
-      - unzip
-      - gcc-4.8
-      - g++-4.8
-      - cmake
-      - gfortran
 install:
   - pip install -U pip setuptools wheel
 script:
