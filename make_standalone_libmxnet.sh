@@ -19,9 +19,9 @@ export PKG_CONFIG_PATH=$DEPS_PATH/lib/pkgconfig:$DEPS_PATH/lib64/pkgconfig:$PKG_
 export CPATH=$DEPS_PATH/include:$CPATH
 
 # Position Independent code must be turned on for statically linking .a
-export CC="gcc -fPIC -w"
-export CXX="g++ -fPIC -w"
-export FC="gforgran -w"
+export CC="gcc -fPIC"
+export CXX="g++ -fPIC"
+export FC="gforgran"
 
 # Discover number of processors
 NUM_PROC=1
