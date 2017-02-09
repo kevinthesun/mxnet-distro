@@ -5,6 +5,9 @@ matrix:
     - os: linux
       dist: trusty
       python: 2.7
+      env:
+        - PYTHON_MAJOR_VERSION=2.7
+        - PIP=pip
       addons:
         apt:
           sources:
@@ -21,6 +24,9 @@ matrix:
     - os: linux
       dist: trusty
       python: 3.4
+      env:
+        - PYTHON_MAJOR_VERSION=3.4
+        - PIP=pip3
       addons:
         apt:
           sources:
@@ -34,9 +40,13 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - python3-pip
     - os: linux
       dist: trusty
       python: 3.5
+      env:
+        - PYTHON_MAJOR_VERSION=3.5
+        - PIP=pip3
       addons:
         apt:
           sources:
@@ -50,9 +60,13 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - python3-pip
     - os: linux
       dist: trusty
       python: 3.6
+      env:
+        - PYTHON_MAJOR_VERSION=3.6
+        - PIP=pip3
       addons:
         apt:
           sources:
@@ -66,57 +80,82 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - python3-pip
 
     - os: osx
       osx_image: xcode8.2
       language: generic
-      env: PYTHON_MAJOR_VERSION=2.7
+      env:
+        - PYTHON_MAJOR_VERSION=2.7
+        - PIP=pip
     - os: osx
       osx_image: xcode8.2
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.4
+      env:
+        - PYTHON_MAJOR_VERSION=3.4
+        - PIP=pip3
     - os: osx
       osx_image: xcode8.2
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.5
+      env:
+        - PYTHON_MAJOR_VERSION=3.5
+        - PIP=pip3
     - os: osx
       osx_image: xcode8.2
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.6
+      env:
+        - PYTHON_MAJOR_VERSION=3.6
+        - PIP=pip3
 
     - os: osx
       osx_image: xcode8
       language: generic
-      env: PYTHON_MAJOR_VERSION=2.7
+      env:
+        - PYTHON_MAJOR_VERSION=2.7
+        - PIP=pip
     - os: osx
       osx_image: xcode8
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.4
+      env:
+        - PYTHON_MAJOR_VERSION=3.4
+        - PIP=pip3
     - os: osx
       osx_image: xcode8
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.5
+      env:
+        - PYTHON_MAJOR_VERSION=3.5
+        - PIP=pip3
     - os: osx
       osx_image: xcode8
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.6
+      env:
+        - PYTHON_MAJOR_VERSION=3.6
+        - PIP=pip3
 
     - os: osx
       osx_image: xcode6.4
       language: generic
-      env: PYTHON_MAJOR_VERSION=2.7
+      env:
+        - PYTHON_MAJOR_VERSION=2.7
+        - PIP=pip
     - os: osx
       osx_image: xcode6.4
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.4
+      env:
+        - PYTHON_MAJOR_VERSION=3.4
+        - PIP=pip3
     - os: osx
       osx_image: xcode6.4
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.5
+      env:
+        - PYTHON_MAJOR_VERSION=3.5
+        - PIP=pip3
     - os: osx
       osx_image: xcode6.4
       language: generic
-      env: PYTHON_MAJOR_VERSION=3.6
+      env:
+        - PYTHON_MAJOR_VERSION=3.6
+        - PIP=pip3
 
 before_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
@@ -132,7 +171,7 @@ before_install: |
   echo "Using python: $(python --version)"
 
 install:
-  - echo "Using pip: $(pip --version)" && pip install -U pip setuptools wheel
+  - echo "Using pip: $($PIP --version)" && $PIP install -U pip setuptools wheel
 script:
   - source make_standalone_libmxnet.sh && source test_wheel.sh
 deploy:
