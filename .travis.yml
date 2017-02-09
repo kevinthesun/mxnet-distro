@@ -4,8 +4,7 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      python:
-        - 2.7
+      python: 2.7
       addons:
         apt:
           sources:
@@ -21,8 +20,7 @@ matrix:
             - gfortran
     - os: linux
       dist: trusty
-      python:
-        - 3.4
+      python: 3.4
       addons:
         apt:
           sources:
@@ -38,8 +36,7 @@ matrix:
             - gfortran
     - os: linux
       dist: trusty
-      python:
-        - 3.5
+      python: 3.5
       addons:
         apt:
           sources:
@@ -55,8 +52,7 @@ matrix:
             - gfortran
     - os: linux
       dist: trusty
-      python:
-        - 3.6
+      python: 3.6
       addons:
         apt:
           sources:
