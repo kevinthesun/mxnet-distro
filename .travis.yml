@@ -4,7 +4,11 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      python: 2.7
+      python:
+        - 2.7
+        - 3.4
+        - 3.5
+        - 3.6
       addons:
         apt:
           sources:
@@ -20,14 +24,62 @@ matrix:
             - gfortran
 
     - os: osx
+      osx_image: xcode8.2
+      language: generic
+      env: PYTHON_VERSION=2.7.13
+    - os: osx
+      osx_image: xcode8.2
+      language: generic
+      env: PYTHON_VERSION=3.4.6
+    - os: osx
+      osx_image: xcode8.2
+      language: generic
+      env: PYTHON_VERSION=3.5.3
+    - os: osx
+      osx_image: xcode8.2
+      language: generic
+      env: PYTHON_VERSION=3.6.0
+
+    - os: osx
       osx_image: xcode8
       language: generic
+      env: PYTHON_VERSION=2.7.13
+    - os: osx
+      osx_image: xcode8
+      language: generic
+      env: PYTHON_VERSION=3.4.6
+    - os: osx
+      osx_image: xcode8
+      language: generic
+      env: PYTHON_VERSION=3.5.3
+    - os: osx
+      osx_image: xcode8
+      language: generic
+      env: PYTHON_VERSION=3.6.0
+
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env: PYTHON_VERSION=2.7.13
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env: PYTHON_VERSION=3.4.6
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env: PYTHON_VERSION=3.5.3
+    - os: osx
+      osx_image: xcode6.4
+      language: generic
+      env: PYTHON_VERSION=3.6.0
 
 brefore_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
       rvm get head --auto-dotfiles
       brew update;
-      brew install python;
+      brew install pyenv;
+      pyenv install $PYTHON_VERSION
   fi
 
 install:
