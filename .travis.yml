@@ -122,8 +122,7 @@ before_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
       rvm get head --auto-dotfiles
       brew update;
-      brew install pyenv;
-      pyenv install $PYTHON_VERSION
+      pyenv install -s $PYTHON_VERSION
       pyenv global $PYTHON_VERSION
   fi
 
