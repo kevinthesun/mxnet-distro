@@ -1,10 +1,12 @@
 #!python
+from __future__ import print_function
 import sys
 from base64 import b64decode
+
 try:
     import mxnet as mx
     mx.img.imdecode(b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==')).asnumpy()
-    print 'Test succeeded'
+    print('Test succeeded')
 except:
-    print 'Test failed'
+    print('Test failed')
     sys.exit(1)
