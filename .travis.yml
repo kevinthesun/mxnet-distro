@@ -129,9 +129,10 @@ before_install: |
     pyenv install -s $PYTHON_VERSION
     pyenv global $PYTHON_VERSION
   fi
+  echo "Using python: $(python --version)"
 
 install:
-  - pip install -U pip setuptools wheel
+  - pip install -U pip setuptools wheel && echo "Using pip: $(pip --version)"
 script:
   - source make_standalone_libmxnet.sh && source test_wheel.sh
 deploy:
