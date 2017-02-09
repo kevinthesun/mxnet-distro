@@ -132,7 +132,7 @@ before_install: |
   echo "Using python: $(python --version)"
 
 install:
-  - pip install -U pip setuptools wheel && echo "Using pip: $(pip --version)"
+  - echo "Using pip: $(pip --version)" && pip install -U pip setuptools wheel
 script:
   - source make_standalone_libmxnet.sh && source test_wheel.sh
 deploy:
