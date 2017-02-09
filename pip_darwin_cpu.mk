@@ -20,7 +20,7 @@ DEBUG = 0
 USE_PROFILER =
 
 # the additional link flags you want to add
-ADD_LDFLAGS += -L../deps/lib -lopencv_core -lopencv_imgproc -lopencv_highgui
+ADD_LDFLAGS += -L../deps/lib -lpng -ltiff -ljpeg -lz
 
 # the additional compile flags you want to add
 ADD_CFLAGS += -I../deps/include

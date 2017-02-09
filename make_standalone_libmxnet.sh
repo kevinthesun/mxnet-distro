@@ -12,7 +12,7 @@ OPENBLAS_VERSION=0.2.19
 JPEG_VERSION=8.4.0
 PNG_VERSION=1.5.10
 TIFF_VERSION=3.8.2
-OPENCV_VERSION=2.4.13
+OPENCV_VERSION=3.2.0
 
 # Setup path to dependencies
 export PKG_CONFIG_PATH=$DEPS_PATH/lib/pkgconfig:$DEPS_PATH/lib64/pkgconfig:$PKG_CONFIG_PATH
@@ -97,51 +97,89 @@ cd -
 
 # download and build opencv since we need the static library
 echo "Building opencv..."
-curl -s -L https://github.com/Itseez/opencv/archive/$OPENCV_VERSION.zip -o $DEPS_PATH/opencv.zip
+curl -s -L https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -o $DEPS_PATH/opencv.zip
 unzip -q $DEPS_PATH/opencv.zip -d $DEPS_PATH
 mkdir $DEPS_PATH/opencv-$OPENCV_VERSION/build
 cd $DEPS_PATH/opencv-$OPENCV_VERSION/build
 cmake -q \
+      -D OPENCV_ENABLE_NONFREE=OFF \
       -D WITH_1394=OFF \
+      -D WITH_ARAVIS=ON \
       -D WITH_AVFOUNDATION=OFF \
+      -D WITH_CAROTENE=OFF \
+      -D WITH_CLP=OFF \
+      -D WITH_CSTRIPES=OFF \
       -D WITH_CUBLAS=OFF \
       -D WITH_CUDA=OFF \
       -D WITH_CUFFT=OFF \
+      -D WITH_DIRECTX=OFF \
       -D WITH_DSHOW=OFF \
-      -D WITH_EIGEN=ON \
+      -D WITH_EIGEN=OFF \
       -D WITH_FFMPEG=OFF \
+      -D WITH_GDAL=OFF \
+      -D WITH_GDCM=ON \
+      -D WITH_GIGEAPI=ON \
+      -D WITH_GPHOTO2=OFF \
       -D WITH_GSTREAMER=OFF \
+      -D WITH_GSTREAMER_0_10=OFF \
       -D WITH_GTK=OFF \
       -D WITH_IMAGEIO=OFF \
+      -D WITH_INTELPERC=OFF \
+      -D WITH_IPP=OFF \
+      -D WITH_IPP_A=OFF \
       -D WITH_JASPER=OFF \
       -D WITH_JPEG=ON \
+      -D WITH_LAPACK=OFF \
       -D WITH_LIBV4L=OFF \
+      -D WITH_MATLAB=OFF \
       -D WITH_MSMF=OFF \
-      -D WITH_NVCUVID=OFF \
       -D WITH_OPENCL=OFF \
       -D WITH_OPENCLAMDBLAS=OFF \
       -D WITH_OPENCLAMDFFT=OFF \
+      -D WITH_OPENCL_SVM=OFF \
       -D WITH_OPENEXR=OFF \
+      -D WITH_OPENGL=OFF \
+      -D WITH_OPENMP=OFF \
+      -D WITH_OPENNI2=OFF \
+      -D WITH_OPENNI=OFF \
+      -D WITH_OPENVX=OFF \
       -D WITH_PNG=ON \
+      -D WITH_PTHREADS_PF=OFF \
+      -D WITH_PVAPI=ON \
       -D WITH_QT=OFF \
+      -D WITH_QTKIT=OFF \
       -D WITH_QUICKTIME=OFF \
       -D WITH_TBB=OFF \
       -D WITH_TIFF=ON \
+      -D WITH_UNICAP=OFF \
       -D WITH_V4L=OFF \
+      -D WITH_VA=OFF \
+      -D WITH_VA_INTEL=OFF \
       -D WITH_VFW=OFF \
       -D WITH_VTK=OFF \
+      -D WITH_WEBP=OFF \
+      -D WITH_WIN32UI=OFF \
+      -D WITH_XIMEA=OFF \
+      -D WITH_XINE=OFF \
+      -D BUILD_SHARED_LIBS=OFF \
+      -D BUILD_opencv_apps=OFF \
+      -D BUILD_ANDROID_EXAMPLES=OFF \
       -D BUILD_DOCS=OFF \
       -D BUILD_EXAMPLES=OFF \
+      -D BUILD_PACKAGE=OFF \
+      -D BUILD_PERF_TESTS=OFF \
+      -D BUILD_TESTS=OFF \
+      -D BUILD_WITH_DEBUG_INFO=OFF \
+      -D BUILD_WITH_DYNAMIC_IPP=OFF \
       -D BUILD_FAT_JAVA_LIB=OFF \
+      -D BUILD_CUDA_STUBS=OFF \
+      -D BUILD_ZLIB=OFF \
+      -D BUILD_TIFF=OFF \
       -D BUILD_JASPER=OFF \
       -D BUILD_JPEG=OFF \
-      -D BUILD_OPENEXR=OFF \
-      -D BUILD_PACKAGE=OFF \
       -D BUILD_PNG=OFF \
-      -D BUILD_SHARED_LIBS=OFF \
-      -D BUILD_TIFF=OFF \
-      -D BUILD_ZLIB=OFF \
-      -D BUILD_opencv_apps=OFF \
+      -D BUILD_OPENEXR=OFF \
+      -D BUILD_TBB=OFF \
       -D BUILD_opencv_calib3d=OFF \
       -D BUILD_opencv_contrib=OFF \
       -D BUILD_opencv_features2d=OFF \
@@ -153,27 +191,31 @@ cmake -q \
       -D BUILD_opencv_photo=OFF \
       -D BUILD_opencv_python=OFF \
       -D BUILD_opencv_video=OFF \
+      -D BUILD_opencv_videostab=OFF \
+      -D BUILD_opencv_world=OFF \
+      -D BUILD_opencv_highgui=OFF \
+      -D BUILD_opencv_viz=OFF \
+      -D BUILD_opencv_videoio=OFF \
       -D CMAKE_LIBRARY_PATH=$DEPS_PATH/lib \
+      -D CMAKE_INCLUDE_PATH=$DEPS_PATH/include \
       -D CMAKE_BUILD_TYPE=RELEASE \
-      -D CMAKE_INSTALL_PREFIX=$DEPS_PATH .. || exit -1
-make --quiet -j $NUM_PROC || exit -1
-make install # user will always have access to home, so no sudo needed
-cd -
+      -D CMAKE_INSTALL_PREFIX=$DEPS_PATH .. || exit -1;
+make --quiet -j $NUM_PROC || exit -1;
+make install; # user will always have access to home, so no sudo needed
+cd -;
 
+# @szha: this is a hack to use the compatibility header
+cat $DEPS_PATH/include/opencv2/imgcodecs/imgcodecs_c.h >> $DEPS_PATH/include/opencv2/imgcodecs.hpp
 
 # Although .so/.dylib building is explicitly turned off for most libraries, sometimes
 # they still get created. So, remove them just to make sure they don't
 # interfere, or otherwise we might get libmxnet.so that is not self-contained.
 rm $DEPS_PATH/{lib,lib64}/*.{so,so.0,dylib}
 
-# Fix opencv.pc bug on osx https://github.com/opencv/opencv/issues/5018
-sed -ie 's|-l-framework|-framework|g' $DEPS_PATH/lib/pkgconfig/opencv.pc
-
 rm -rf mxnet-build
 git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
 
 
-# Go to the parent path and build mxnet
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_cpu.mk mxnet-build/config.mk
 cd mxnet-build
