@@ -145,21 +145,16 @@ before_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     rvm get head --auto-dotfiles
     brew update;
-    PYTHON_VERSION=$(pyenv install --list | grep "^$PYTHON_MAJOR_VERSION")
     if [[ -z $(command -v pyenv) ]]; then
       brew install pyenv
     fi
+    PYTHON_VERSION=$(pyenv install --list | tr -d ' ' | grep "^$PYTHON_MAJOR_VERSION" | grep -Ev "dev|rc" | tail -n 1)
     pyenv install -s $PYTHON_VERSION
     pyenv global $PYTHON_VERSION
   fi
 
-install: |
-  if [[ -z $(command -v pip3) ]]; then
-    PIP=pip3
-  else
-    PIP=pip
-  fi
-  $PIP install -U $PIP setuptools wheel
+install:
+  - pip install -U pip setuptools wheel
 
 script:
   - source make_standalone_libmxnet.sh && source test_wheel.sh
