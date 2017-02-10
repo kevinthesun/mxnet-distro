@@ -148,13 +148,15 @@ before_install: |
     if [[ -z $(command -v pyenv) ]]; then
       brew install pyenv
     fi
-    PYTHON_VERSION=$(pyenv install --list | tr -d ' ' | grep "^$PYTHON_MAJOR_VERSION" | grep -Ev "dev|rc" | tail -n 1)
+    PYTHON_VERSION=$(pyenv install --list | tr -d ' ' | grep "^$PYTHON_MAJOR_VERSION" | grep -Ev "dev|rc|b" | tail -n 1)
     pyenv install -s $PYTHON_VERSION
-    pyenv global $PYTHON_VERSION
+    export PATH=$HOME/.pyenv/versions/$PYTHON_VERSION/bin:$PATH
+    python --version
     if [[ -z $(command -v pip) ]]; then
       curl -L -O https://bootstrap.pypa.io/get-pip.py
-      sudo python get-pip.py
+      python get-pip.py
     fi
+    pip --version
   fi
 
 install:
