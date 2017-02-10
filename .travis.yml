@@ -159,7 +159,7 @@ install: |
   else
     PIP=pip
   fi
-  $PIP install -U pip setuptools wheel
+  $PIP install -U $PIP setuptools wheel
 
 script:
   - source make_standalone_libmxnet.sh && source test_wheel.sh
