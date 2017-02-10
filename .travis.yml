@@ -143,11 +143,11 @@ matrix:
 
 before_install: |
   if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-    rvm get head --auto-dotfiles
+    rvm get head --auto-dotfiles;
     brew update;
-    if [[ -z $(command -v pyenv) ]]; then
-      brew install pyenv
-    fi
+    brew install pyenv || echo;
+    brew upgrade pyenv || echo;
+    pyenv --version
     PYTHON_VERSION=$(pyenv install --list | tr -d ' ' | grep "^$PYTHON_MAJOR_VERSION" | grep -Ev "dev|rc|b" | tail -n 1)
     pyenv install -s $PYTHON_VERSION
     export PATH=$HOME/.pyenv/versions/$PYTHON_VERSION/bin:$PATH
