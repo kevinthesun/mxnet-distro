@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-if [[ -z $(command -v pip3) ]]; then
+if [[ ! -z $(command -v pip3) ]]; then
   PIP=pip3
 else
   PIP=pip
