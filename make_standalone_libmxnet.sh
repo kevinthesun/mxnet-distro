@@ -1,18 +1,35 @@
 #!/usr/bin/env bash
+if [ $# -lt 1 ]; then
+    echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|GPU]"
+fi
 
-# Set up path as temporary working directory
-DEPS_PATH=$PWD/deps
-rm -rf $PWD/deps
-mkdir $DEPS_PATH
+# Variants include CPU and GPU.
+# CPU version depends on and builds openblas.
+# GPU version depends on and downloads cuda and cudnn.
+VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 
-# Dependencies can be updated here. Be sure to verify the download link before
-# changing. The dependencies are:
+
+# Dependencies can be updated here. Be sure to verify the download links
+# and build logics before changing.
+# Variant-specific dependencies:
+if [[ $VARIANT == 'gpu' ]]; then
+    CUDA_VERSION='8.0.61-1'
+    LIBCUDA_VERSION='375.26-0ubuntu1'
+    LIBCUDNN_VERSION='5.1.10-1+cuda8.0'
+fi
+
+# Dependencies that are shared by variants are:
 ZLIB_VERSION=1.2.6
 OPENBLAS_VERSION=0.2.19
 JPEG_VERSION=8.4.0
 PNG_VERSION=1.5.10
 TIFF_VERSION=3.8.2
 OPENCV_VERSION=3.2.0
+
+# Set up path as temporary working directory
+DEPS_PATH=$PWD/deps
+rm -rf $PWD/deps
+mkdir $DEPS_PATH
 
 # Setup path to dependencies
 export PKG_CONFIG_PATH=$DEPS_PATH/lib/pkgconfig:$DEPS_PATH/lib64/pkgconfig:$PKG_CONFIG_PATH
@@ -35,6 +52,7 @@ fi
 echo "Using $NUM_PROC parallel jobs in building."
 
 
+# Set up shared dependencies:
 # Download and build zlib
 echo "Building zlib..."
 curl -s -L https://github.com/LuaDist/zlib/archive/$ZLIB_VERSION.zip -o $DEPS_PATH/zlib.zip
@@ -210,14 +228,24 @@ cat $DEPS_PATH/include/opencv2/imgcodecs/imgcodecs_c.h >> $DEPS_PATH/include/ope
 # Although .so/.dylib building is explicitly turned off for most libraries, sometimes
 # they still get created. So, remove them just to make sure they don't
 # interfere, or otherwise we might get libmxnet.so that is not self-contained.
+# For CUDA, since we cannot redistribute the shared objects or perform static linking,
+# we DO want to keep the shared objects around, hence performing deletion before cuda setup.
 rm $DEPS_PATH/{lib,lib64}/*.{so,so.0,dylib}
+
+# Set up gpu-specific dependencies:
+if [[ $VARIANT == 'gpu' ]]; then
+
+    # download and install cuda and cudnn
+    ./setup_gpu_build_tools.sh $DEPS_PATH $CUDA_VERSION $LIBCUDA_VERSION $LIBCUDNN_VERSION
+
+fi
 
 rm -rf mxnet-build
 git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
 
 
 echo "Now building mxnet..."
-cp pip_$(uname | tr '[:upper:]' '[:lower:]')_cpu.mk mxnet-build/config.mk
+cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
 cd mxnet-build
 make -j $NUM_PROC || exit -1;
 cd ../
@@ -238,3 +266,5 @@ python setup.py bdist_wheel
 # Now it's ready to test.
 # After testing, Travis will build the wheel again
 # The output will be in the 'dist' path.
+
+# @szha: this is a workaround for travis-ci#6522

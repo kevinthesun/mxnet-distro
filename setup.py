@@ -36,7 +36,11 @@ shutil.copytree(os.path.join(CURRENT_DIR, 'mxnet-build/python/mxnet'),
                 os.path.join(CURRENT_DIR, 'mxnet'))
 shutil.copy(LIB_PATH[0], os.path.join(CURRENT_DIR, 'mxnet'))
 
-setup(name='mxnet',
+package_name = 'mxnet'
+if 'mxnet_variant' in os.environ and os.environ['mxnet_variant'].lower() == 'gpu':
+    package_name = 'mxnet_gpu'
+
+setup(name=package_name,
       version=__version__,
       description=open('README.md').read(),
       zip_safe=False,
