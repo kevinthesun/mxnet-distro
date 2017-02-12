@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 if [ $# -lt 1 ]; then
     echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|GPU]"
+    exit 1
 fi
 
 # Variants include CPU and GPU.
@@ -230,13 +231,22 @@ cat $DEPS_PATH/include/opencv2/imgcodecs/imgcodecs_c.h >> $DEPS_PATH/include/ope
 # interfere, or otherwise we might get libmxnet.so that is not self-contained.
 # For CUDA, since we cannot redistribute the shared objects or perform static linking,
 # we DO want to keep the shared objects around, hence performing deletion before cuda setup.
-rm $DEPS_PATH/{lib,lib64}/*.{so,so.0,dylib}
+rm $DEPS_PATH/{lib,lib64}/*.{so,so.*,dylib}
 
 # Set up gpu-specific dependencies:
 if [[ $VARIANT == 'gpu' ]]; then
 
     # download and install cuda and cudnn
     ./setup_gpu_build_tools.sh $DEPS_PATH $CUDA_VERSION $LIBCUDA_VERSION $LIBCUDNN_VERSION
+
+    # setup path
+    CUDA_MAJOR_VERSION=$(echo $CUDA_VERSION | cut -d. -f1,2)
+    NVIDIA_MAJOR_VERSION=$(echo $LIBCUDA_VERSION | cut -d. -f1)
+    export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/bin
+    export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
+    export C_INCLUDE_PATH=${C_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
+    export LIBRARY_PATH=${LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
 
 fi
 
@@ -267,4 +277,9 @@ python setup.py bdist_wheel
 # After testing, Travis will build the wheel again
 # The output will be in the 'dist' path.
 
+set -eo pipefail
+pip install -U --force-reinstall dist/*.whl
+python sanity_test.py
+
 # @szha: this is a workaround for travis-ci#6522
+set +e

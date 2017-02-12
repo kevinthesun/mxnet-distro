@@ -3,6 +3,7 @@
 set -e
 if [ $# -lt 1 ]; then
     echo "Usage: <NVCC_PREFIX> <CUDA_VERSION> <LIBCUDA_VERSION> <CUDNN_VERSION>"
+    exit 1
 fi
 
 prefix=$1
@@ -28,6 +29,7 @@ files=( \
   "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-nvrtc-dev-${cuda_major}_${cuda}_amd64.deb" \
   "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-misc-headers-${cuda_major}_${cuda}_amd64.deb" \
   "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/libcuda1-${libcuda_major}_${libcuda}_amd64.deb" \
+  "http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/nvidia-${libcuda_major}_${libcuda}_amd64.deb" \
   "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1404/x86_64/libcudnn${libcudnn_major}-dev_5.1.10-1+cuda8.0_amd64.deb" \
   "http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1404/x86_64/libcudnn${libcudnn_major}_5.1.10-1+cuda8.0_amd64.deb" \
 )
@@ -39,6 +41,9 @@ do
     dpkg -X package.deb ${prefix}
     rm package.deb
 done
+
+cp deps/usr/include/x86_64-linux-gnu/cudnn_v5.h deps/include/cudnn.h
+ln -s libcudnn.so.5 deps/usr/lib/x86_64-linux-gnu/libcudnn.so
 
 # @szha: this is a workaround for travis-ci#6522
 set +e
