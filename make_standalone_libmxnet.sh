@@ -250,8 +250,12 @@ if [[ $VARIANT == 'gpu' ]]; then
 
 fi
 
+# If a travis build is from a tag, use this tag for fetching the corresponding release
+if [[ ! -z $TRAVIS_TAG ]]; then
+    GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
+fi
 rm -rf mxnet-build
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 
 echo "Now building mxnet..."
