@@ -38,7 +38,7 @@ shutil.copy(LIB_PATH[0], os.path.join(CURRENT_DIR, 'mxnet'))
 
 package_name = 'mxnet'
 with open('PYPI_README.md') as readme_file:
-    description = readme_file.read()
+    long_description = readme_file.read()
 
 variant = os.environ['mxnet_variant'].upper()
 if variant == 'GPU':
