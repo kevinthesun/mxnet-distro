@@ -255,7 +255,7 @@ if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
+git clone --recursive https://github.com/szha/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 
 echo "Now building mxnet..."
