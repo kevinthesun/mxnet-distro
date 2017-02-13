@@ -257,7 +257,7 @@ before_install: |
   fi
 
 install:
-  - pip install -U pip setuptools wheel pypandoc
+  - pip install -U pip setuptools wheel pypandoc twine
 
 script:
   - source make_standalone_libmxnet.sh $mxnet_variant
