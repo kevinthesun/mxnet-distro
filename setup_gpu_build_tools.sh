@@ -2,7 +2,7 @@
 # Install nvcc and setup environment variable
 set -e
 if [ $# -lt 1 ]; then
-    echo "Usage: <NVCC_PREFIX> <CUDA_VERSION> <LIBCUDA_VERSION> <CUDNN_VERSION>"
+    echo "Usage: <INSTALL_PREFIX> <CUDA_VERSION> <LIBCUDA_VERSION> <CUDNN_VERSION>"
     exit 1
 fi
 
@@ -42,8 +42,8 @@ do
     rm package.deb
 done
 
-cp deps/usr/include/x86_64-linux-gnu/cudnn_v5.h deps/include/cudnn.h
-ln -s libcudnn.so.5 deps/usr/lib/x86_64-linux-gnu/libcudnn.so
+cp ${prefix}/usr/include/x86_64-linux-gnu/cudnn_v5.h ${prefix}/include/cudnn.h
+ln -s libcudnn.so.5 ${prefix}/usr/lib/x86_64-linux-gnu/libcudnn.so
 
 # @szha: this is a workaround for travis-ci#6522
 set +e
