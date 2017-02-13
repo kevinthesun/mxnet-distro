@@ -60,4 +60,5 @@ setup(name=package_name,
       include_package_data=True,
       install_requires=DEPENDENCIES,
       distclass=BinaryDistribution,
+      license='Apache 2.0',
       url='https://github.com/dmlc/mxnet')
