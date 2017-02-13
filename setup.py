@@ -45,15 +45,16 @@ if variant == 'GPU':
     package_name = 'mxnet_gpu'
 
 with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
-    description = description + variant_doc.read()
+    long_description = long_description + variant_doc.read()
 
 # pypi only supports rst, so use pandoc to convert
 import pypandoc
-description = pypandoc.convert_text(description, 'rst', 'md')
+long_description = pypandoc.convert_text(long_description, 'rst', 'md')
 
 setup(name=package_name,
       version=__version__,
-      description=description,
+      long_description=long_description,
+      description='MXNet is a deep learning framework designed for both efficiency and flexibility. It allows you to mix the flavours of deep learning programs together to maximize the efficiency and your productivity.',
       zip_safe=False,
       packages=find_packages(),
       package_data={'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]},
