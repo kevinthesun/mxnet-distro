@@ -37,12 +37,23 @@ shutil.copytree(os.path.join(CURRENT_DIR, 'mxnet-build/python/mxnet'),
 shutil.copy(LIB_PATH[0], os.path.join(CURRENT_DIR, 'mxnet'))
 
 package_name = 'mxnet'
-if 'mxnet_variant' in os.environ and os.environ['mxnet_variant'].lower() == 'gpu':
+with open('PYPI_README.md') as readme_file:
+    description = readme_file.read()
+
+variant = os.environ['mxnet_variant'].upper()
+if variant == 'GPU':
     package_name = 'mxnet_gpu'
+
+with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
+    description = description + variant_doc.read()
+
+# pypi only supports rst, so use pandoc to convert
+import pypandoc
+description = pypandoc.convert_text(description, 'rst', 'md')
 
 setup(name=package_name,
       version=__version__,
-      description=open('README.md').read(),
+      description=description,
       zip_safe=False,
       packages=find_packages(),
       package_data={'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]},

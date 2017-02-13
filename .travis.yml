@@ -20,6 +20,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
     - os: linux
       dist: trusty
       python: 3.4
@@ -38,6 +39,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
     - os: linux
       dist: trusty
@@ -57,6 +59,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
     - os: linux
       dist: trusty
@@ -76,6 +79,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
 
     - os: linux
@@ -96,6 +100,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
     - os: linux
       dist: trusty
       python: 3.4
@@ -114,6 +119,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
     - os: linux
       dist: trusty
@@ -133,6 +139,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
     - os: linux
       dist: trusty
@@ -152,6 +159,7 @@ matrix:
             - g++-4.8
             - cmake
             - gfortran
+            - pandoc
             - python3-pip
 
     - os: osx
@@ -235,6 +243,7 @@ before_install: |
     brew update;
     brew install pyenv || echo;
     brew upgrade pyenv || echo;
+    brew install pandoc || echo;
     pyenv --version
     PYTHON_VERSION=$(pyenv install --list | tr -d ' ' | grep "^$PYTHON_MAJOR_VERSION" | grep -Ev "dev|rc|b" | tail -n 1)
     pyenv install -s $PYTHON_VERSION
@@ -248,7 +257,7 @@ before_install: |
   fi
 
 install:
-  - pip install -U pip setuptools wheel
+  - pip install -U pip setuptools wheel pypandoc
 
 script:
   - source make_standalone_libmxnet.sh $mxnet_variant
