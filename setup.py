@@ -52,9 +52,9 @@ with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
 import pypandoc
 long_description = pypandoc.convert_text(long_description, 'rst', 'md')
 short_description = 'MXNet is a deep learning framework designed for both efficiency and flexibility.'
-if variant == 'cu80':
+if variant == 'CU80':
     short_description += ' This version only works with CUDA-8.0.'
-elif variant == 'cu75':
+elif variant == 'CU75':
     short_description += ' This version only works with CUDA-7.5.'
 
 setup(name=package_name,
