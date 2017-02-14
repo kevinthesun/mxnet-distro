@@ -37,12 +37,13 @@ shutil.copytree(os.path.join(CURRENT_DIR, 'mxnet-build/python/mxnet'),
 shutil.copy(LIB_PATH[0], os.path.join(CURRENT_DIR, 'mxnet'))
 
 package_name = 'mxnet'
-with open('PYPI_README.md') as readme_file:
-    long_description = readme_file.read()
 
 variant = os.environ['mxnet_variant'].upper()
-if variant == 'GPU':
-    package_name = 'mxnet_gpu'
+if variant != 'CPU':
+    package_name = 'mxnet_{0}'.format(variant.lower())
+
+with open('PYPI_README.md') as readme_file:
+    long_description = readme_file.read()
 
 with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
     long_description = long_description + variant_doc.read()
@@ -50,11 +51,16 @@ with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
 # pypi only supports rst, so use pandoc to convert
 import pypandoc
 long_description = pypandoc.convert_text(long_description, 'rst', 'md')
+short_description = 'MXNet is a deep learning framework designed for both efficiency and flexibility.'
+if variant == 'cu80':
+    short_description += ' This version only works with CUDA-8.0.'
+elif variant == 'cu75':
+    short_description += ' This version only works with CUDA-7.5.'
 
 setup(name=package_name,
       version=__version__,
       long_description=long_description,
-      description='MXNet is a deep learning framework designed for both efficiency and flexibility. It allows you to mix the flavours of deep learning programs together to maximize the efficiency and your productivity.',
+      description=short_description,
       zip_safe=False,
       packages=find_packages(),
       package_data={'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]},

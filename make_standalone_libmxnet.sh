@@ -4,19 +4,24 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-# Variants include CPU and GPU.
+# Variants include CPU, CU75 and CU80
 # CPU version depends on and builds openblas.
-# GPU version depends on and downloads cuda and cudnn.
+# CU75 version depends on and downloads cuda-7.5 and cudnn-5.1.
+# CU80 version depends on and downloads cuda-8.0 and cudnn-5.1.
 VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 
 
 # Dependencies can be updated here. Be sure to verify the download links
 # and build logics before changing.
 # Variant-specific dependencies:
-if [[ $VARIANT == 'gpu' ]]; then
+if [[ $VARIANT == 'cu80' ]]; then
     CUDA_VERSION='8.0.61-1'
     LIBCUDA_VERSION='375.26-0ubuntu1'
     LIBCUDNN_VERSION='5.1.10-1+cuda8.0'
+elif [[ $VARIANT == 'cu75' ]]; then
+    CUDA_VERSION='7.5-18'
+    LIBCUDA_VERSION='375.26-0ubuntu1'
+    LIBCUDNN_VERSION='5.1.10-1+cuda7.5'
 fi
 
 # Dependencies that are shared by variants are:
@@ -234,13 +239,13 @@ cat $DEPS_PATH/include/opencv2/imgcodecs/imgcodecs_c.h >> $DEPS_PATH/include/ope
 rm $DEPS_PATH/{lib,lib64}/*.{so,so.*,dylib}
 
 # Set up gpu-specific dependencies:
-if [[ $VARIANT == 'gpu' ]]; then
+if [[ ( $VARIANT == 'cu75' ) || ( $VARIANT == 'cu80' ) ]]; then
 
     # download and install cuda and cudnn
     ./setup_gpu_build_tools.sh $DEPS_PATH $CUDA_VERSION $LIBCUDA_VERSION $LIBCUDNN_VERSION
 
     # setup path
-    CUDA_MAJOR_VERSION=$(echo $CUDA_VERSION | cut -d. -f1,2)
+    CUDA_MAJOR_VERSION=$(echo $CUDA_VERSION | tr '-' '.' | cut -d. -f1,2)
     NVIDIA_MAJOR_VERSION=$(echo $LIBCUDA_VERSION | cut -d. -f1)
     export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/bin
     export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include

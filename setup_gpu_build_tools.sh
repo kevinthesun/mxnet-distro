@@ -11,7 +11,7 @@ cuda=$2
 libcuda=$3
 libcudnn=$4
 
-cuda_major=$(echo $cuda | cut -d. -f1,2 | tr '.' '-')
+cuda_major=$(echo $cuda | tr '-' '.' | cut -d. -f1,2 | tr '.' '-')
 libcuda_major=$(echo $libcuda | cut -d. -f1)
 libcudnn_major=$(echo $libcudnn | cut -d. -f1)
 
