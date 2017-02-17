@@ -262,8 +262,8 @@ fi
 
 
 echo "Now building mxnet..."
-cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk ../../../config.mk
-cd ../../..
+cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk ../mxnet/config.mk
+cd ../mxnet
 make -j $NUM_PROC || exit -1;
 cd ../
 
