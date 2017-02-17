@@ -259,22 +259,20 @@ fi
 if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
-rm -rf mxnet-build
-git clone --recursive https://github.com/szha/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 
 echo "Now building mxnet..."
-cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
-cd mxnet-build
+cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk ../../../config.mk
+cd ../../..
 make -j $NUM_PROC || exit -1;
 cd ../
 
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
 if [[ ! -z $(command -v readelf) ]]; then
-    readelf -d mxnet-build/lib/libmxnet.so
+    readelf -d mxnet/lib/libmxnet.so
 elif [[ ! -z $(command -v otool) ]]; then
-    otool -L mxnet-build/lib/libmxnet.so
+    otool -L mxnet/lib/libmxnet.so
 else
     echo "Not available"
 fi
