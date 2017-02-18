@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ $# -lt 1 ]; then
-    echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|GPU]"
+    echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|CU75|CU80]"
     exit 1
 fi
 
