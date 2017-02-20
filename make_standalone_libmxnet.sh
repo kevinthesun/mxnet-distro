@@ -15,6 +15,7 @@ apt-get update
 sudo apt-get install -y build-essential
 sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+pip install Cython
 
 # Dependencies can be updated here. Be sure to verify the download links
 # and build logics before changing.
@@ -287,6 +288,7 @@ else
 fi
 
 # Test notebooks
+echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
 python -m pip install -U pip
 pip install jupyter
@@ -305,3 +307,7 @@ cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
 cd ..
 python test_ipynb.py
+
+echo "Test Summary Start"
+cat test_summary.txt
+echo "Test Summary End"
