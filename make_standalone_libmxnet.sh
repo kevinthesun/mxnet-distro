@@ -298,8 +298,8 @@ pip install sklearn
 pip install opencv-python
 cd mxnet/tests/nightly
 git clone https://github.com/kevinthesun/mxnet.git
+cd mxnet/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
-cd tests/nightly
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
