@@ -270,7 +270,8 @@ echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
 cd mxnet
 make -j $NUM_PROC || exit -1;
-cd ../
+cd python
+python setup.py install
 
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
@@ -294,7 +295,7 @@ pip install sklearn
 pip install opencv-python
 cd mxnet/tests/nightly
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebook
+cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
 cd ..
 python test_ipynb.py
