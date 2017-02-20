@@ -282,6 +282,14 @@ else
 fi
 
 # Test notebooks
+apt-get -y install ipython ipython-notebook
+python -m pip install -U pip
+pip install jupyter
+apt-get -y install graphviz
+pip install graphviz
+pip install --upgrade setuptools
+pip install matplotlib
+pip install sklearn
 pip install opencv-python
 cd mxnet/tests/nightly
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
