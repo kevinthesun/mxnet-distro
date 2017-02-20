@@ -117,9 +117,9 @@ python setup.py install
 cd ../../
 
 if [[ $VARIANT == 'mkl' ]]; then
-    cp deps/lib/libmklml_intel.so mxnet-build/lib
-    cp deps/lib/libiomp5.so mxnet-build/lib
-    cp deps/license.txt mxnet-build/MKLML_LICENSE
+    cp deps/lib/libmklml_intel.so mxnet/lib
+    cp deps/lib/libiomp5.so mxnet/lib
+    cp deps/license.txt mxnet/MKLML_LICENSE
 fi
 
 # Print the linked objects on libmxnet.so
