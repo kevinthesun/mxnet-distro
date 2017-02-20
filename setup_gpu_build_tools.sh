@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# Install nvcc and setup environment variable
 set -e
-if [ $# -lt 1 ]; then
-    echo "Usage: <INSTALL_PREFIX> <CUDA_VERSION> <LIBCUDA_VERSION> <CUDNN_VERSION>"
-    exit 1
-fi
 
-prefix=$1
-cuda=$2
-libcuda=$3
-libcudnn=$4
+# Install nvcc and setup environment variable
+prefix=$DEPS_PATH
+cuda=$CUDA_VERSION
+libcuda=$LIBCUDA_VERSION
+libcudnn=$LIBCUDNN_VERSION
 
 cuda_major=$(echo $cuda | tr '-' '.' | cut -d. -f1,2 | tr '.' '-')
 libcuda_major=$(echo $libcuda | cut -d. -f1)
@@ -47,3 +43,9 @@ ln -s libcudnn.so.5 ${prefix}/usr/lib/x86_64-linux-gnu/libcudnn.so
 
 # @szha: this is a workaround for travis-ci#6522
 set +e
+
+export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/bin
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/include
+export LIBRARY_PATH=${LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-${libcuda_major}
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-${libcuda_major}

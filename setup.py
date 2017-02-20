@@ -56,6 +56,22 @@ if variant == 'CU80':
     short_description += ' This version only works with CUDA-8.0.'
 elif variant == 'CU75':
     short_description += ' This version only works with CUDA-7.5.'
+elif variant == 'MKL':
+    short_description += ' This version includes MKLML support.'
+
+package_data = {'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]}
+if variant == 'MKL':
+# uncomment below lines when we start using mkldnn
+    # shutil.copy('../deps/lib/libmkldnn.so', os.path.join(CURRENT_DIR, 'mxnet'))
+    # shutil.copy('../deps/share/doc/mkldnn/LICENSE', os.path.join(CURRENT_DIR, 'mxnet/MKLDNN_LICENSE'))
+    # package_data['mxnet'].append('mxnet/MKLDNN_LICENSE')
+    # package_data['mxnet'].append('mxnet/libmkldnn.so')
+    shutil.copy(os.path.join(CURRENT_DIR, 'deps/lib/libmklml_intel.so'), os.path.join(CURRENT_DIR, 'mxnet'))
+    shutil.copy(os.path.join(CURRENT_DIR, 'deps/lib/libiomp5.so'), os.path.join(CURRENT_DIR, 'mxnet'))
+    shutil.copy(os.path.join(CURRENT_DIR, 'deps/license.txt'), os.path.join(CURRENT_DIR, 'mxnet/MKLML_LICENSE'))
+    package_data['mxnet'].append('mxnet/libmklml_intel.so')
+    package_data['mxnet'].append('mxnet/libiomp5.so')
+    package_data['mxnet'].append('mxnet/MKLML_LICENSE')
 
 setup(name=package_name,
       version=__version__,
@@ -63,7 +79,7 @@ setup(name=package_name,
       description=short_description,
       zip_safe=False,
       packages=find_packages(),
-      package_data={'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]},
+      package_data=package_data,
       include_package_data=True,
       install_requires=DEPENDENCIES,
       distclass=BinaryDistribution,
