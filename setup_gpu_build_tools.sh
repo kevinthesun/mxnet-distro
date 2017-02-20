@@ -44,6 +44,7 @@ ln -s libcudnn.so.5 ${prefix}/usr/lib/x86_64-linux-gnu/libcudnn.so
 # @szha: this is a workaround for travis-ci#6522
 set +e
 
+cuda_major=$(echo $cuda_major | tr '-' '.')
 export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/bin
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-${cuda_major}/include

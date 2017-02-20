@@ -101,6 +101,12 @@ cd mxnet-build
 make -j $NUM_PROC || exit 1;
 cd ../
 
+if [[ $VARIANT == 'mkl' ]]; then
+    cp deps/lib/libmklml_intel.so mxnet-build/lib
+    cp deps/lib/libiomp5.so mxnet-build/lib
+    cp deps/license.txt mxnet-build/MKLML_LICENSE
+fi
+
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
 if [[ ! -z $(command -v readelf) ]]; then
