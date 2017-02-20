@@ -20,7 +20,7 @@ DEBUG = 0
 USE_PROFILER =
 
 # the additional link flags you want to add
-ADD_LDFLAGS += -L../deps/lib -lpng -ltiff -ljpeg -lz -Wl,--version-script=../libmxnet.ver
+ADD_LDFLAGS += -L../deps/lib -lpng -ltiff -ljpeg -lz -Wl,--version-script=../libmxnet.ver,-rpath,'$${ORIGIN}'
 # add -lmkldnn to the above when we start using mkldnn
 
 # the additional compile flags you want to add
