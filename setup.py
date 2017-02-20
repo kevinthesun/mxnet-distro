@@ -51,13 +51,15 @@ with open('{0}_ADDITIONAL.md'.format(variant)) as variant_doc:
 # pypi only supports rst, so use pandoc to convert
 import pypandoc
 long_description = pypandoc.convert_text(long_description, 'rst', 'md')
-short_description = 'MXNet is a deep learning framework designed for both efficiency and flexibility.'
+short_description = 'MXNet is an ultra-scalable deep learning framework.'
 if variant == 'CU80':
-    short_description += ' This version only works with CUDA-8.0.'
+    short_description += ' This version uses CUDA-8.0.'
 elif variant == 'CU75':
-    short_description += ' This version only works with CUDA-7.5.'
+    short_description += ' This version uses CUDA-7.5.'
 elif variant == 'MKL':
-    short_description += ' This version includes MKLML support.'
+    short_description += ' This version uses MKL-ML.'
+elif variant == 'CPU':
+    short_description += ' This version uses openblas.'
 
 package_data = {'mxnet': [os.path.join('mxnet', os.path.basename(LIB_PATH[0]))]}
 if variant == 'MKL':
