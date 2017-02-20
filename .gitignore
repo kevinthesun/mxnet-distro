@@ -2,5 +2,5 @@ build
 deps
 dist
 mxnet-build
-mxnet.egg-info
+*egg-info
 mxnet

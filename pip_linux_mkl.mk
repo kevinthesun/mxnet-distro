@@ -20,10 +20,11 @@ DEBUG = 0
 USE_PROFILER =
 
 # the additional link flags you want to add
-ADD_LDFLAGS += -L../deps/lib -lpng -ltiff -ljpeg -lz  -Wl,-exported_symbols_list,../libmxnet.sym
+ADD_LDFLAGS += -L../deps/lib -lpng -ltiff -ljpeg -lz -Wl,--version-script=../libmxnet.ver,-rpath,'$${ORIGIN}'
+# add -lmkldnn to the above when we start using mkldnn
 
 # the additional compile flags you want to add
-ADD_CFLAGS += -I../deps/include
+ADD_CFLAGS = -I../deps/include
 
 #---------------------------------------------
 # matrix computation libraries for CPU/GPU
@@ -61,7 +62,7 @@ CUDA_ARCH := -gencode arch=compute_30,code=sm_30 \
 USE_NVRTC = 0
 
 # use openmp for parallelization
-USE_OPENMP = 0
+USE_OPENMP = 1
 
 
 # MKL ML Library for Intel CPU/Xeon Phi
@@ -70,14 +71,14 @@ USE_OPENMP = 0
 # MKL ML Library folder, need to be root for /usr/local
 # Change to User Home directory for standard user
 # For USE_BLAS!=mkl only
-MKLML_ROOT=/usr/local
+MKLML_ROOT=../deps
 
 # whether use MKL2017 library
-USE_MKL2017 = 0
+USE_MKL2017 = 1
 
 # whether use MKL2017 experimental feature for high performance
 # Prerequisite USE_MKL2017=1
-USE_MKL2017_EXPERIMENTAL = 0
+USE_MKL2017_EXPERIMENTAL = 1
 
 # whether use NNPACK library
 USE_NNPACK = 0

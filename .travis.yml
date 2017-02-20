@@ -242,6 +242,86 @@ matrix:
             - pandoc
             - python3-pip
 
+    - os: linux
+      dist: trusty
+      python: 2.7
+      env:
+        - PYTHON_MAJOR_VERSION=2.7
+        - mxnet_variant=MKL
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - git
+            - libcurl4-openssl-dev
+            - unzip
+            - gcc-4.8
+            - g++-4.8
+            - cmake
+            - gfortran
+            - pandoc
+    - os: linux
+      dist: trusty
+      python: 3.4
+      env:
+        - PYTHON_MAJOR_VERSION=3.4
+        - mxnet_variant=MKL
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - git
+            - libcurl4-openssl-dev
+            - unzip
+            - gcc-4.8
+            - g++-4.8
+            - cmake
+            - gfortran
+            - pandoc
+            - python3-pip
+    - os: linux
+      dist: trusty
+      python: 3.5
+      env:
+        - PYTHON_MAJOR_VERSION=3.5
+        - mxnet_variant=MKL
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - git
+            - libcurl4-openssl-dev
+            - unzip
+            - gcc-4.8
+            - g++-4.8
+            - cmake
+            - gfortran
+            - pandoc
+            - python3-pip
+    - os: linux
+      dist: trusty
+      python: 3.6
+      env:
+        - PYTHON_MAJOR_VERSION=3.6
+        - mxnet_variant=MKL
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - git
+            - libcurl4-openssl-dev
+            - unzip
+            - gcc-4.8
+            - g++-4.8
+            - cmake
+            - gfortran
+            - pandoc
+            - python3-pip
+
     - os: osx
       osx_image: xcode8.2
       language: generic

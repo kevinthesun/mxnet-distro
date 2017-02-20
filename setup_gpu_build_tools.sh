@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# Install nvcc and setup environment variable
 set -e
-if [ $# -lt 1 ]; then
-    echo "Usage: <INSTALL_PREFIX> <CUDA_VERSION> <LIBCUDA_VERSION> <CUDNN_VERSION>"
-    exit 1
-fi
 
-prefix=$1
-cuda=$2
-libcuda=$3
-libcudnn=$4
+# Install nvcc and setup environment variable
+prefix=$DEPS_PATH
+cuda=$CUDA_VERSION
+libcuda=$LIBCUDA_VERSION
+libcudnn=$LIBCUDNN_VERSION
 
 cuda_major=$(echo $cuda | tr '-' '.' | cut -d. -f1,2 | tr '.' '-')
 libcuda_major=$(echo $libcuda | cut -d. -f1)
