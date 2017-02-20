@@ -266,10 +266,7 @@ GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 apt-get install -y git
 rm -rf mxnet-build
-git clone --recursive https://github.com/kevinthesun/mxnet.git
-cd mxnet
-git checkout --track origin/UbuntuNotebooktest
-cd ..
+git clone https://github.com/dmlc/mxnet.git --recursive
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
@@ -300,6 +297,9 @@ pip install matplotlib
 pip install sklearn
 pip install opencv-python
 cd mxnet/tests/nightly
+git clone https://github.com/kevinthesun/mxnet.git
+git checkout --track origin/UbuntuNotebooktest
+cd tests/nightly
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
