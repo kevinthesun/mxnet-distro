@@ -272,6 +272,7 @@ cd mxnet
 make -j $NUM_PROC || exit -1;
 cd python
 python setup.py install
+cd ../../
 
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
