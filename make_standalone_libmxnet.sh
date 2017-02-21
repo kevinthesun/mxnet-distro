@@ -17,8 +17,8 @@ pip install Cython
 # MKL version depends on mklml.
 # CU75 version depends on and downloads cuda-7.5 and cudnn-5.1.
 # CU80 version depends on and downloads cuda-8.0 and cudnn-5.1.
-VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
-PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
+VARIANT='cu75'
+PLATFORM='linux'
 export mxnet_variant=CU75
 
 make_config=pip_${PLATFORM}_${VARIANT}.mk
@@ -109,7 +109,7 @@ if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
