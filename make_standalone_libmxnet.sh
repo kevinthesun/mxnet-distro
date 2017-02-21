@@ -107,7 +107,7 @@ if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone https://github.com/dmlc/mxnet.git mxnet-build —recursive
+git clone https://github.com/dmlc/mxnet.git mxnet-build —-recursive
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
