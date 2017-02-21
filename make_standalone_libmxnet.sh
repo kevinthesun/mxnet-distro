@@ -135,6 +135,9 @@ else
 fi
 
 # Make wheel for testing
+wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb --no-check-certificate
+ar p pandoc-1.19.2.1-1-amd64.deb data.tar.gz | sudo tar xvz --strip-components 2 -C /usr/local
+pip install pypandoc
 python setup.py bdist_wheel
 
 # Now it's ready to test.
@@ -142,7 +145,7 @@ python setup.py bdist_wheel
 # The output will be in the 'dist' path.
 
 set -eo pipefail
-pip install -U --force-reinstall dist/*.whl
+python -m pip install -U --force-reinstall dist/*.whl
 python sanity_test.py
 
 
