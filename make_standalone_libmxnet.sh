@@ -300,3 +300,7 @@ cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
 cd ..
 python test_ipynb.py
+
+echo "Test Summary Start"
+cat test_summary.txt
+echo "Test Summary End"
