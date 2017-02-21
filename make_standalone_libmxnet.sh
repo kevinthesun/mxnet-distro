@@ -113,17 +113,9 @@ echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
 cd mxnet-build
 make -j $NUM_PROC || exit -1;
-cd ../
-git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
-cd mxnet-nbtest/tests/nightly
-git checkout --track origin/UbuntuNotebooktest
-cp test_ipynb.py ../../../
-cp test_config.txt ../../../
-cd ../../../
-git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebooks
-git checkout --track origin/CleanNotebook
-cd ../
+cd python
+python setup.py install
+cd ../../
 
 if [[ $VARIANT == 'mkl' ]]; then
     cp deps/lib/libmklml_intel.so mxnet-build/lib
@@ -152,7 +144,13 @@ pip install --upgrade setuptools
 pip install matplotlib
 pip install sklearn
 pip install opencv-python
-
+git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
+cd mxnet-nbtest/tests/nightly
+git checkout --track origin/UbuntuNotebooktest
+git clone https://github.com/kevinthesun/mxnet-notebooks.git
+cd mxnet-notebooks
+git checkout --track origin/CleanNotebook
+cd ..
 python test_ipynb.py
 
 echo "Test Summary Start"
