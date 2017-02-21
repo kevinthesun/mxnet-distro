@@ -168,9 +168,11 @@ git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebooks
+cd mxnet-notebooks/python/basic
 git checkout --track origin/CleanNotebook
-cd ..
+jupyter nbconvert --to python ndarray.ipynb
+python ndarray.py
+cd ../../../
 python test_ipynb.py
 
 echo "Test Summary Start"
