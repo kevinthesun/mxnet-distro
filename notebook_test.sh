@@ -1,3 +1,5 @@
+pip install -U mxnet-cu75
+
 cd /
 echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
