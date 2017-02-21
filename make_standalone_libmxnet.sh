@@ -174,6 +174,9 @@ jupyter nbconvert --to python ndarray.ipynb
 python ndarray.py
 cd ../../../
 python test_ipynb.py
+rm test_config.txt
+mv test_config_bak.txt test_config.txt
+python test_ipynb.py
 
 echo "Test Summary Start"
 cat test_summary.txt
