@@ -106,29 +106,37 @@ fi
 if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
-rm -rf mxnet
-git clone https://github.com/dmlc/mxnet.git --recursive
+rm -rf mxnet-build
+git clone https://github.com/dmlc/mxnet.git mxnet-build —recursive
 
 echo "Now building mxnet..."
-cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
-cd mxnet
+cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
+cd mxnet-build
 make -j $NUM_PROC || exit -1;
-cd python
-python setup.py install
-cd ../../
+cd ../
+git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
+cd mxnet-nbtest/tests/nightly
+git checkout --track origin/UbuntuNotebooktest
+cp test_ipynb.py ../../../
+cp test_config.txt ../../../
+cd ../../../
+git clone https://github.com/kevinthesun/mxnet-notebooks.git
+cd mxnet-notebooks
+git checkout --track origin/CleanNotebook
+cd ../
 
 if [[ $VARIANT == 'mkl' ]]; then
-    cp deps/lib/libmklml_intel.so mxnet/lib
-    cp deps/lib/libiomp5.so mxnet/lib
-    cp deps/license.txt mxnet/MKLML_LICENSE
+    cp deps/lib/libmklml_intel.so mxnet-build/lib
+    cp deps/lib/libiomp5.so mxnet-build/lib
+    cp deps/license.txt mxnet-build/MKLML_LICENSE
 fi
 
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
 if [[ ! -z $(command -v readelf) ]]; then
-    readelf -d mxnet/lib/libmxnet.so
+    readelf -d mxnet-build/lib/libmxnet.so
 elif [[ ! -z $(command -v otool) ]]; then
-    otool -L mxnet/lib/libmxnet.so
+    otool -L mxnet-build/lib/libmxnet.so
 else
     echo "Not available"
 fi
@@ -144,13 +152,7 @@ pip install --upgrade setuptools
 pip install matplotlib
 pip install sklearn
 pip install opencv-python
-git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
-cd mxnet-nbtest/tests/nightly
-git checkout --track origin/UbuntuNotebooktest
-git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebooks
-git checkout --track origin/CleanNotebook
-cd ..
+
 python test_ipynb.py
 
 echo "Test Summary Start"
