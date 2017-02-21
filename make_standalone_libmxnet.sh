@@ -259,17 +259,16 @@ fi
 if [[ ! -z $TRAVIS_TAG ]]; then
 GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
-rm -rf mxnet-build
-git clone --recursive https://github.com/kevinthesun/mxnet.git
-cd mxnet
-git checkout --track origin/UbuntuNotebooktest
-cd ..
+rm -rf mxnet
+git clone https://github.com/dmlc/mxnet.git --recursive
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
 cd mxnet
 make -j $NUM_PROC || exit -1;
-cd ../
+cd python
+python setup.py install
+cd ../../
 
 # Print the linked objects on libmxnet.so
 echo "Checking linked objects on libmxnet.so..."
@@ -281,11 +280,22 @@ else
     echo "Not available"
 fi
 
-# Test notebooks
+echo "Test Jupyter notebook"
+apt-get -y install ipython ipython-notebook
+python -m pip install -U pip
+pip install jupyter
+apt-get -y install graphviz
+pip install graphviz
+pip install --upgrade setuptools
+pip install matplotlib
+pip install sklearn
 pip install opencv-python
 cd mxnet/tests/nightly
+git clone https://github.com/kevinthesun/mxnet.git
+cd mxnet/tests/nightly
+git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebook
+cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
 cd ..
 python test_ipynb.py
