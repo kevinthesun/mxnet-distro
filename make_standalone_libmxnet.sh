@@ -4,6 +4,12 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
+#Install Dependencies
+apt-get update
+sudo apt-get install -y build-essential
+sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+
 # Variants include CPU, MKL, CU75 and CU80
 # darwin only supports CPU version which depends on and builds openblas.
 # on linux, CPU version also depends on openblas.
@@ -106,9 +112,7 @@ echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
 cd mxnet
 make -j $NUM_PROC || exit -1;
-cd python
-python setup.py install
-cd ../../
+cd ../
 
 if [[ $VARIANT == 'mkl' ]]; then
     cp deps/lib/libmklml_intel.so mxnet/lib
@@ -137,9 +141,8 @@ pip install --upgrade setuptools
 pip install matplotlib
 pip install sklearn
 pip install opencv-python
-cd mxnet/tests/nightly
-git clone https://github.com/kevinthesun/mxnet.git
-cd mxnet/tests/nightly
+git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
+cd mxnet-nbtest/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
