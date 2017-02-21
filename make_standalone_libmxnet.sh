@@ -17,8 +17,8 @@ pip install Cython
 # MKL version depends on mklml.
 # CU75 version depends on and downloads cuda-7.5 and cudnn-5.1.
 # CU80 version depends on and downloads cuda-8.0 and cudnn-5.1.
-VARIANT='cu75'
-PLATFORM='linux'
+VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
+PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
 export mxnet_variant=CU75
 
 make_config=pip_${PLATFORM}_${VARIANT}.mk
@@ -104,12 +104,12 @@ if [[ $PLATFORM == 'linux' ]]; then
 fi
 
 # If a travis build is from a tag, use this tag for fetching the corresponding release
-export TRAVIS_TAG=v0.9.3a3
+export TRAVIS_TAG=v0.9.3a
 if [[ ! -z $TRAVIS_TAG ]]; then
-    GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
+    GIT_ADDITIONAL_FLAGS="--branch $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
@@ -153,6 +153,7 @@ python sanity_test.py
 set +e
 
 # Test notebooks
+cd /
 echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
 python -m pip install -U pip
@@ -162,9 +163,9 @@ apt-get -y install graphviz
 pip install graphviz
 pip install matplotlib
 pip install sklearn
-pip install opencv-python
-git clone https://github.com/kevinthesun/mxnet.git mxnet-nbtest
-cd mxnet-nbtest/tests/nightly
+python2.7 -m pip install opencv-python
+git clone https://github.com/kevinthesun/mxnet.git
+cd mxnet/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
