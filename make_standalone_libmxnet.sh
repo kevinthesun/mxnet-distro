@@ -19,7 +19,6 @@ pip install Cython
 # CU80 version depends on and downloads cuda-8.0 and cudnn-5.1.
 VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
-export TRAVIS_TAG=v0.9.3a3
 export mxnet_variant=CU75
 
 make_config=pip_${PLATFORM}_${VARIANT}.mk
@@ -109,7 +108,7 @@ if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone https://github.com/dmlc/mxnet.git mxnet-build --recursive $GIT_ADDITIONAL_FLAGS
+git clone https://github.com/dmlc/mxnet.git mxnet-build --recursive
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
@@ -146,8 +145,6 @@ set -eo pipefail
 pip install -U --force-reinstall dist/*.whl
 python sanity_test.py
 
-# @szha: this is a workaround for travis-ci#6522
-set +e
 
 # Test notebooks
 echo "Test Jupyter notebook"
