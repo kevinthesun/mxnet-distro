@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 if [ $# -lt 1 ]; then
-    echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|MKL|CU75|CU80]"
-    exit 1
+echo "Usage: make_standalone_libmxnet.sh <VARIANT>[CPU|MKL|CU75|CU80]"
+exit 1
 fi
+
+apt-get install git
 
 # Variants include CPU, MKL, CU75 and CU80
 # darwin only supports CPU version which depends on and builds openblas.
@@ -13,36 +15,30 @@ fi
 VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
 
-#Install dependencies
-apt-get update
-sudo apt-get install -y build-essential
-sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
 make_config=pip_${PLATFORM}_${VARIANT}.mk
-
 if [[ ! -f $make_config ]]; then
-    echo "Couldn't find make config $make_config for the current settings."
-    exit 1
+echo "Couldn't find make config $make_config for the current settings."
+exit 1
 fi
 
 # Variant-specific dependencies:
 if [[ $PLATFORM == 'linux' ]]; then
-    export OPENBLAS_VERSION=0.2.19
-    # TODO uncomment when starting to use mkldnn
-    # if [[ $VARIANT == 'mkl' ]]; then
-        # export MKLML_VERSION='2017.0.2.20170209'
-        # export MKLDNN_VERSION='0.5'
-    if [[ $VARIANT == 'cu80' ]]; then
-        export CUDA_VERSION='8.0.61-1'
-        export LIBCUDA_VERSION='375.26-0ubuntu1'
-        export LIBCUDNN_VERSION='5.1.10-1+cuda8.0'
-    elif [[ $VARIANT == 'cu75' ]]; then
-        export CUDA_VERSION='7.5-18'
-        export LIBCUDA_VERSION='375.26-0ubuntu1'
-        export LIBCUDNN_VERSION='5.1.10-1+cuda7.5'
-    fi
+export OPENBLAS_VERSION=0.2.19
+# TODO uncomment when starting to use mkldnn
+# if [[ $VARIANT == 'mkl' ]]; then
+# export MKLML_VERSION='2017.0.2.20170209'
+# export MKLDNN_VERSION='0.5'
+if [[ $VARIANT == 'cu80' ]]; then
+export CUDA_VERSION='8.0.61-1'
+export LIBCUDA_VERSION='375.26-0ubuntu1'
+export LIBCUDNN_VERSION='5.1.10-1+cuda8.0'
+elif [[ $VARIANT == 'cu75' ]]; then
+export CUDA_VERSION='7.5-18'
+export LIBCUDA_VERSION='375.26-0ubuntu1'
+export LIBCUDNN_VERSION='5.1.10-1+cuda7.5'
+fi
 elif [[ $PLATFORM == 'darwin' ]]; then
-    export OPENBLAS_VERSION=0.2.19
+export OPENBLAS_VERSION=0.2.19
 fi
 
 # Set up path as temporary working directory
@@ -85,20 +81,19 @@ rm $DEPS_PATH/{lib,lib64}/*.{so,so.*,dylib}
 
 if [[ $PLATFORM == 'linux' ]]; then
 
-    # TODO when using mkldnn download and install mkl and mkldnn, and set paths
-    # if [[ $VARIANT == 'mkl' ]]; then
-        # ./make_mklml_mkldnn.sh
-    if [[ ( $VARIANT == 'cu75' ) || ( $VARIANT == 'cu80' ) ]]; then
-        # download and install cuda and cudnn, and set paths
-        ./setup_gpu_build_tools.sh
-        CUDA_MAJOR_VERSION=$(echo $CUDA_VERSION | tr '-' '.' | cut -d. -f1,2)
-        NVIDIA_MAJOR_VERSION=$(echo $LIBCUDA_VERSION | cut -d. -f1)
-        export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/bin
-        export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
-        export C_INCLUDE_PATH=${C_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
-        export LIBRARY_PATH=${LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
-        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
-    fi
+# TODO when using mkldnn download and install mkl and mkldnn, and set paths
+# if [[ $VARIANT == 'mkl' ]]; then
+# ./make_mklml_mkldnn.sh
+if [[ ( $VARIANT == 'cu75' ) || ( $VARIANT == 'cu80' ) ]]; then
+# download and install cuda and cudnn, and set paths
+./setup_gpu_build_tools.sh
+CUDA_MAJOR_VERSION=$(echo $CUDA_VERSION | tr '-' '.' | cut -d. -f1,2)
+NVIDIA_MAJOR_VERSION=$(echo $LIBCUDA_VERSION | cut -d. -f1)
+export PATH=${PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/bin
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/include
+export LIBRARY_PATH=${LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$DEPS_PATH/usr/local/cuda-$CUDA_MAJOR_VERSION/lib64:$DEPS_PATH/usr/lib/x86_64-linux-gnu:$DEPS_PATH/usr/lib/nvidia-$NVIDIA_MAJOR_VERSION
 fi
 
 # If a travis build is from a tag, use this tag for fetching the corresponding release
