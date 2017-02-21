@@ -104,11 +104,12 @@ if [[ $PLATFORM == 'linux' ]]; then
 fi
 
 # If a travis build is from a tag, use this tag for fetching the corresponding release
+export TRAVIS_TAG=v0.9.3a3
 if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="-b $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone https://github.com/dmlc/mxnet.git mxnet-build --recursive
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
@@ -148,15 +149,17 @@ set -eo pipefail
 python -m pip install -U --force-reinstall dist/*.whl
 python sanity_test.py
 
+# @szha: this is a workaround for travis-ci#6522
+set +e
 
 # Test notebooks
 echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
 python -m pip install -U pip
+pip install --upgrade setuptools
 pip install jupyter
 apt-get -y install graphviz
 pip install graphviz
-pip install --upgrade setuptools
 pip install matplotlib
 pip install sklearn
 pip install opencv-python
