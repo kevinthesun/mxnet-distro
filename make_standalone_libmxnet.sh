@@ -9,6 +9,7 @@ apt-get update
 sudo apt-get install -y build-essential
 sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+pip install Cython
 
 # Variants include CPU, MKL, CU75 and CU80
 # darwin only supports CPU version which depends on and builds openblas.
@@ -112,7 +113,9 @@ echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet/config.mk
 cd mxnet
 make -j $NUM_PROC || exit -1;
-cd ../
+cd python
+python setup.py install
+cd ../../
 
 if [[ $VARIANT == 'mkl' ]]; then
     cp deps/lib/libmklml_intel.so mxnet/lib
