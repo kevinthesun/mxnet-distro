@@ -104,12 +104,12 @@ if [[ $PLATFORM == 'linux' ]]; then
 fi
 
 # If a travis build is from a tag, use this tag for fetching the corresponding release
-#export TRAVIS_TAG=v0.9.3a
+export TRAVIS_TAG=v0.9.3a
 if [[ ! -z $TRAVIS_TAG ]]; then
     GIT_ADDITIONAL_FLAGS="--branch $TRAVIS_TAG"
 fi
 rm -rf mxnet-build
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 echo "Now building mxnet..."
 cp pip_$(uname | tr '[:upper:]' '[:lower:]')_${VARIANT}.mk mxnet-build/config.mk
@@ -170,5 +170,3 @@ git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks/python/basic
 git checkout --track origin/CleanNotebook
-#jupyter nbconvert --to python symbol.ipynb
-#python symbol.py
