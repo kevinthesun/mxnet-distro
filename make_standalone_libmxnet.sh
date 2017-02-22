@@ -172,9 +172,3 @@ cd mxnet-notebooks/python/basic
 git checkout --track origin/CleanNotebook
 jupyter nbconvert --to python symbol.ipynb
 python symbol.py
-cd ../../../
-python test_ipynb.py
-
-echo "Test Summary Start"
-cat test_summary.txt
-echo "Test Summary End"
