@@ -21,8 +21,6 @@ git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
 cd ../
-rm test_config.txt
-mv test_config_bak.txt test_config.txt
 python test_ipynb.py
 
 echo "Test Summary Start"
