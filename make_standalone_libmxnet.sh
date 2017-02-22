@@ -168,15 +168,10 @@ git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
-cd mxnet-notebooks
-git checkout --track origin/CleanNotebook
-cd ../
-python test_ipynb.py
-rm test_config.txt
-mv test_config_bak.txt test_config.txt
 cd mxnet-notebooks/python/basic
-jupyter nbconvert --to python ndarray.ipynb
-python ndarray.py
+git checkout --track origin/CleanNotebook
+jupyter nbconvert --to python symbol.ipynb
+python symbol.py
 cd ../../../
 python test_ipynb.py
 
