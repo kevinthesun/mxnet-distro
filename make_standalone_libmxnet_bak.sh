@@ -1,4 +1,7 @@
+#!/usr/bin/env bash
 pip install -U mxnet-cu75
+
+# Test notebooks
 cd /
 echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
@@ -16,7 +19,9 @@ git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
 git checkout --track origin/CleanNotebook
-cd ..
+cd ../
+rm test_config.txt
+mv test_config_bak.txt test_config.txt
 python test_ipynb.py
 
 echo "Test Summary Start"
