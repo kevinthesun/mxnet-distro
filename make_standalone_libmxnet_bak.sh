@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-pip install -U mxnet-cu75
+python -m pip install -U pip
+python2.7 -m pip install -U mxnet-cu75
 
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
 apt-get -y install ipython ipython-notebook
-python -m pip install -U pip
 pip install --upgrade setuptools
 pip install jupyter
 apt-get -y install graphviz
