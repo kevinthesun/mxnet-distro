@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 python -m pip install -U pip
 python2.7 -m pip install -U mxnet-cu75
+apt-get install -y git
 
 # Test notebooks
 cd /
