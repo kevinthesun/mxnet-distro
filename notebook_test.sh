@@ -1,7 +1,5 @@
-#!/usr/bin bash
-cd /mxnet/tests/nightly/mxnet-notebooks/python/basic
-python symbol.py
-cd ../../../
+#!/usr/bin/env bash
+cd /mxnet/tests/nightly
 python test_ipynb.py
 
 echo "Test Summary Start"
