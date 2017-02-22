@@ -170,5 +170,5 @@ git checkout --track origin/UbuntuNotebooktest
 git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks/python/basic
 git checkout --track origin/CleanNotebook
-jupyter nbconvert --to python symbol.ipynb
-python symbol.py
+#jupyter nbconvert --to python symbol.ipynb
+#python symbol.py
