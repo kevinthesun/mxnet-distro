@@ -5,7 +5,7 @@ if [ $# -lt 1 ]; then
 fi
 
 #Install Dependencies
-apt-get update
+sudo apt-get update
 sudo apt-get install -y build-essential
 sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
@@ -155,11 +155,11 @@ set +e
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
-apt-get -y install ipython ipython-notebook
+sudo apt-get -y install ipython ipython-notebook
 python -m pip install -U pip
 pip install --upgrade setuptools
 pip install jupyter
-apt-get -y install graphviz
+sudo apt-get -y install graphviz
 pip install graphviz
 pip install matplotlib
 pip install sklearn
