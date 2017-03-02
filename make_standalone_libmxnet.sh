@@ -147,8 +147,8 @@ sudo python setup.py bdist_wheel
 # The output will be in the 'dist' path.
 
 set -eo pipefail
-python -m pip install -U --force-reinstall dist/*.whl
-python sanity_test.py
+sudo python -m pip install -U --force-reinstall dist/*.whl
+sudo python sanity_test.py
 
 # @szha: this is a workaround for travis-ci#6522
 set +e
