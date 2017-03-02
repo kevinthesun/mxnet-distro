@@ -139,7 +139,7 @@ fi
 wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb --no-check-certificate
 ar p pandoc-1.19.2.1-1-amd64.deb data.tar.gz | sudo tar xvz --strip-components 2 -C /usr/local
 sudo pip install pypandoc
-python setup.py bdist_wheel
+sudo python setup.py bdist_wheel
 
 # Now it's ready to test.
 # After testing, Travis will build the wheel again
