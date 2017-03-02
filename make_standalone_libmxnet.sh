@@ -5,10 +5,10 @@ if [ $# -lt 1 ]; then
 fi
 
 #Install Dependencies
-sudo -t apt-get update
-sudo -t apt-get install -y build-essential
-sudo -t apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-sudo -t apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+apt-get update
+apt-get install -y build-essential
+apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
 pip install Cython
 
 # Variants include CPU, MKL, CU75 and CU80
@@ -137,7 +137,7 @@ fi
 
 # Make wheel for testing
 wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb --no-check-certificate
-ar p pandoc-1.19.2.1-1-amd64.deb data.tar.gz | sudo -t tar xvz --strip-components 2 -C /usr/local
+ar p pandoc-1.19.2.1-1-amd64.deb data.tar.gz | tar xvz --strip-components 2 -C /usr/local
 pip install pypandoc
 python setup.py bdist_wheel
 
@@ -155,11 +155,11 @@ set +e
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
-sudo -t apt-get -y install ipython ipython-notebook
+apt-get -y install ipython ipython-notebook
 python -m pip install -U pip
 pip install --upgrade setuptools
 pip install jupyter
-sudo -t apt-get -y install graphviz
+apt-get -y install graphviz
 pip install graphviz
 pip install matplotlib
 pip install sklearn
