@@ -9,7 +9,7 @@ sudo apt-get update
 sudo apt-get install -y build-essential
 sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-pip install Cython
+sudo pip install Cython
 
 # Variants include CPU, MKL, CU75 and CU80
 # darwin only supports CPU version which depends on and builds openblas.
@@ -157,14 +157,14 @@ set +e
 cd /
 echo "Test Jupyter notebook"
 sudo apt-get -y install ipython ipython-notebook
-python -m pip install -U pip
-pip install --upgrade setuptools
-pip install jupyter
+sudo python -m pip install -U pip
+sudo pip install --upgrade setuptools
+sudo pip install jupyter
 sudo apt-get -y install graphviz
-pip install graphviz
-pip install matplotlib
-pip install sklearn
-python2.7 -m pip install opencv-python
+sudo pip install graphviz
+sudo pip install matplotlib
+sudo pip install sklearn
+sudo python2.7 -m pip install opencv-python
 git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
 git checkout --track origin/UbuntuNotebooktest
