@@ -19,7 +19,7 @@ pip install Cython
 # CU80 version depends on and downloads cuda-8.0 and cudnn-5.1.
 VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
-sudo export mxnet_variant=CU75
+export mxnet_variant=CU75
 echo ${mxnet_variant}
 
 make_config=pip_${PLATFORM}_${VARIANT}.mk

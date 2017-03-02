@@ -37,6 +37,7 @@ shutil.copytree(os.path.join(CURRENT_DIR, 'mxnet-build/python/mxnet'),
 shutil.copy(LIB_PATH[0], os.path.join(CURRENT_DIR, 'mxnet'))
 
 package_name = 'mxnet'
+
 variant = os.environ['mxnet_variant'].upper()
 if variant != 'CPU':
     package_name = 'mxnet_{0}'.format(variant.lower())
