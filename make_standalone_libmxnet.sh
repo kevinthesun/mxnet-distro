@@ -20,6 +20,7 @@ pip install Cython
 VARIANT=$(echo $1 | tr '[:upper:]' '[:lower:]')
 PLATFORM=$(uname | tr '[:upper:]' '[:lower:]')
 sudo export mxnet_variant=CU75
+echo ${mxnet_variant}
 
 make_config=pip_${PLATFORM}_${VARIANT}.mk
 if [[ ! -f $make_config ]]; then
