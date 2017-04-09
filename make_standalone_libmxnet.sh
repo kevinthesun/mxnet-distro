@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+sudo apt-get update
 sudo apt-get -y install git
 sudo apt-get -y install python-opencv
 sudo apt-get -y install ipython ipython-notebook
@@ -10,7 +11,7 @@ sudo pip install graphviz
 sudo pip install matplotlib
 sudo pip install sklearn
 
-sudo git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
+git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 echo "Now building mxnet..."
 cd mxnet-build
@@ -23,11 +24,11 @@ sudo python setup.py install
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
-sudo git clone https://github.com/kevinthesun/mxnet.git
+git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
-sudo git checkout --track origin/UbuntuNotebooktest
-sudo git clone https://github.com/kevinthesun/mxnet-notebooks.git
+git checkout --track origin/UbuntuNotebooktest
+git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
-sudo git checkout --track origin/CleanNotebook
+git checkout --track origin/CleanNotebook
 cd ..
 sudo python -u test_ipynb.py
