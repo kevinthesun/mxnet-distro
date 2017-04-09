@@ -16,7 +16,7 @@ git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIO
 echo "Now building mxnet..."
 cd mxnet-build
 cp make/config.mk .
-make -j8 USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 || exit 1
+make -j8 USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1 || exit 1
 cd python
 sudo python setup.py install
 
