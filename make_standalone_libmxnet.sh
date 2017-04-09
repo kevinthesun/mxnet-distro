@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-apt-get -y install python-opencv
-apt-get -y install ipython ipython-notebook
-apt-get -y install graphviz
-python -m pip install -U pip
-pip install --upgrade setuptools
-pip install jupyter
-pip install graphviz
-pip install matplotlib
-pip install sklearn
+sudo apt-get -y install python-opencv
+sudo apt-get -y install ipython ipython-notebook
+sudo apt-get -y install graphviz
+sudo python -m pip install -U pip
+sudo pip install --upgrade setuptools
+sudo pip install jupyter
+sudo pip install graphviz
+sudo pip install matplotlib
+sudo pip install sklearn
 
 git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
@@ -16,7 +16,7 @@ cd mxnet-build
 cp make/config.mk .
 make -j8 USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1
 cd python
-python setup.py install
+sudo python setup.py install
 
 
 # Test notebooks
