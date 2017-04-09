@@ -10,7 +10,7 @@ sudo pip install graphviz
 sudo pip install matplotlib
 sudo pip install sklearn
 
-git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
+sudo git clone --recursive https://github.com/dmlc/mxnet.git mxnet-build $GIT_ADDITIONAL_FLAGS
 
 echo "Now building mxnet..."
 cd mxnet-build
@@ -23,11 +23,11 @@ sudo python setup.py install
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
-git clone https://github.com/kevinthesun/mxnet.git
+sudo git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
-git checkout --track origin/UbuntuNotebooktest
-git clone https://github.com/kevinthesun/mxnet-notebooks.git
+sudo git checkout --track origin/UbuntuNotebooktest
+sudo git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
-git checkout --track origin/CleanNotebook
+sudo git checkout --track origin/CleanNotebook
 cd ..
-python -u test_ipynb.py
+sudo python -u test_ipynb.py
