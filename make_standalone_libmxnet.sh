@@ -24,11 +24,11 @@ sudo python setup.py install
 # Test notebooks
 cd /
 echo "Test Jupyter notebook"
-git clone https://github.com/kevinthesun/mxnet.git
+sudo git clone https://github.com/kevinthesun/mxnet.git
 cd mxnet/tests/nightly
-git checkout --track origin/UbuntuNotebooktest
-git clone https://github.com/kevinthesun/mxnet-notebooks.git
+sudo git checkout --track origin/UbuntuNotebooktest
+sudo git clone https://github.com/kevinthesun/mxnet-notebooks.git
 cd mxnet-notebooks
-git checkout --track origin/CleanNotebook
+sudo git checkout --track origin/CleanNotebook
 cd ..
 sudo python -u test_ipynb.py
